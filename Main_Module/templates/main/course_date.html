@@ -1,0 +1,62 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do Checklist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+   
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Attendance check
+            </h1>
+            {% if messages %}
+                {% for message in messages %}
+                    <article class="message is-success">
+                        <div class="message-header">
+                            <p>Success!</p>
+                        </div>
+                        <div class="message-body">
+                            {{ message }}
+                        </div>
+                    </article>
+                {% endfor %}
+            {% endif %}
+            <table class="table is-hoverable is-fullwidth">
+            <thead>
+            <tr>
+
+ 
+                <th>تاریخ</th>
+               
+
+
+            </tr>
+            </thead>
+           
+                <tr>
+                    <td>
+                        {% for i in report%}
+                        <a href={% url 'main:coursesview' i.subject.id i.classes.slug 1%}>{% endfor %}october</a><br>
+                        {% for i in report%}
+                        <a href={% url 'main:coursesview' i.subject.id i.classes.slug 2%}>{% endfor %}december</a><br>
+                  
+
+                    </td>
+                    <td>
+                       
+                   
+      
+                </tr>
+          
+        </table>
+        </div>
+    </section>
+</body>
+</html>

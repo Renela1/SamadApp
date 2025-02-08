@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title></title>
+</head>
+<body>
+
+{% for i in student %}
+
+{{i.student.classes}}|{{i.student.first_name}} {{ i.student.last_name}} -- {{i.completed}}|{{i.completed2}}|{{i.completed3}}|{{i.completed4}} -- {{i.completion_date}}<br><br>
+
+{% endfor %} 
+</body>
+</html>

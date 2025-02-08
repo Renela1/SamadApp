@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول و باکس اطلاعات</title>
+    <!-- لینک بوت‌استرپ 5 -->
+
+ 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap Link CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <!--icons Link site-->
+   
+    <!--CSS Link Site-->
+    <link rel="stylesheet" href="/static/css/honar.css">
+    <title>Honarestan</title>
+    <!-- لینک Font Awesome -->
+<style>
+
+    select.readonly-select {
+
+        background-color: white;
+        -webkit-appearance: none; /* Safari and Chrome */
+        -moz-appearance: none; /* Firefox */
+        appearance: none;
+        pointer-events: none;  /* Prevent clicking */
+        display: none;
+        border: none;
+    }
+
+    .field {
+        width: 100px;
+        text-align: center;
+        height: 35px;
+        font-size:22px;
+        margin-right:25%;
+        margin-left:-20%;
+        border:none;
+    }
+
+    .readonly {
+
+        appearance: none;
+     
+        display: none;
+        border: none;
+    }
+    
+        {% comment %} margin-right: 40px; {% endcomment %}
+
+    .btn-circle {
+        width: 60px;
+        height: 60px;
+        padding: 6px 0px;
+        border-radius: 30px;
+        text-align: center;
+    
+        line-height: 1.42857;
+    }
+</style>
+
+</head>
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow">
+        <div class="container">
+            <a class="navbar-brand" href="#">Honsarestan</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item me-4">
+                        <a class="nav-link active" aria-current="page" href="#">صفحه ای اصلی</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="{% url 'profile' %}" tabindex="-1" aria-disabled="true">بازگشت به پروفایل</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="{% url 'main:courses' classes %}" tabindex="-1" aria-disabled="true"> انتخاب درس</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="/class_finall_grade/{{instance.id}}/{{course}}/{{turn}}"> مستمر </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<br><br><br><br>
+<h1 style="margin-right:5%;">ویرایش نمرات {{ instance }} </h1>
+
+<div class="container mt-5" style="margin-left:15%;">
+    <!-- باکس اطلاعات -->
+    <div class="">
+
+    </div>
+
+    <!-- جدول -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {{ text_formset.management_form }}
+        <table class="table table-bordered shadow" style=" background-color:white;">
+           
+            <thead class="table-primary text-center">
+            <tr>
+                <td> نام دانش آموز  </td>
+                <td> کلاس  </td>
+                <td> درس  </td>
+  
+                {% for i in description_query %}
+                
+                    <td> {{i.date}} </td>
+                
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+                
+                {% for student, subjects in grouped_data.items %}
+                
+                {% for subject, formset in subjects.items %}
+                
+                    <tr>
+                       
+                        <td>{{ student.first_name }} {{student.last_name}}</td>
+                        <td>{{ student.classes }}</td>
+                        <td>{{ subject }}</td>
+                        {% for form in formset %}
+                        <td style="width:10%; height:20px;">
+                            
+                            {{ form.as_table }} <!-- Adjust field name as needed -->
+
+
+                        </td>
+                        {% endfor %}
+                    </tr>  
+                    
+                {% endfor %}
+            {% endfor %}
+           
+            
+        
+            </tbody>
+            
+        </table>
+        <button type="submit" id="save-button" class="btn btn-primary">ذخیره تغییرات</button>
+        <div>
+                
+                <br><button type="submit" id="save" name='add_new_3' class='btn btn-outline-success btn-circle' style='margin-bottom:1%;'> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"  fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg></button><br>
+                
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous">
+
+</script>
+<script>
+    
+    document.getElementById('save-button').addEventListener('click', function (event) {
+        // Select all fields ending with '-your_field_name' in the formset
+        console.log(`Field value`);
+        const fields = document.querySelectorAll('input[name$="-grades_theory"]');
+        
+        let showPopup = false;
+        
+        fields.forEach((field) => {
+            const fieldValue = parseFloat(field.value) || 0; // Handle empty or invalid input gracefully
+            console.log(`Field value: ${fieldValue}`); // Debugging output
+    
+            if (fieldValue < 10) {
+                showPopup = true; // Set the flag to true if any field is less than 10
+            }
+        });
+    
+        if (showPopup) {
+            const userConfirmed = confirm("One or more fields are less than 10. Are you sure you want to save?");
+            if (!userConfirmed) {
+                event.preventDefault(); // Prevent submission if the user cancels
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

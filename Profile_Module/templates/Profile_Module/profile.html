@@ -1,0 +1,390 @@
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه پروفایل</title>
+
+    <!-- Bootstrap Version 5 -->
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css'>
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="static/css/profile.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+
+<body class="gradient-custom">
+
+<main class="container">
+    <div class="main-body">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home_page' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+            </ol>
+        </nav>
+        <!-- /Breadcrumb -->
+
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-2">
+                <!-- Card Body (Card 1) -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            {% if detail.profile_photo %}
+                                {% thumbnail detail.profile_photo "170x170" crop="center" quality=85 as thumb %}
+                                <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}"
+                                     class="rounded-circle">
+                            {% endif %}
+                            <div class="mt-3">
+                                <h4>{{ user.last_name }}</h4>
+                                <p class="text-secondary mb-1">{{ user.user_name }}</p>
+                                {% if user.staff.role == principal %}
+                                    <a href="{% url 'show_contacts' %}">
+                                        <button class="btn btn-primary">ارسال پیغام</button>
+                                    </a>
+                                {% endif %}
+                                {% if request.user.is_authenticated %}
+                                    {% if user.staff.role == group or user.staff.role == teach %}
+                                        <a href="{% url 'show_notifications' %}">
+                                            <button class="btn btn-outline-primary">پیغام ها</button>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'show_notifications' %}">
+                                            <button class="btn btn-outline-primary">پیغام ها</button>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Card Body (Card 1) -->
+
+                <!-- Card Body (Card 2) -->
+                <div class="card mt-2">
+                    <ul class="list-group list-group-flush">
+                       
+                        {% if user.staff.role == group %}
+
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">نقش:</h6>
+                                <span class="text-secondary">معاون پایه</span>
+                            </li>
+                        {% elif user.staff.role == teach %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">تعداد دروس شما:</h6>
+                            <span class="text-secondary">{{ profile }}</span>
+                        </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">نقش:</h6>
+                                <span class="text-secondary">دبیر</span>
+                            </li>
+                        {% elif user.staff.role == principal %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">نقش:</h6>
+                                <span class="text-secondary">مدیر</span>
+                            </li>
+                        {% else %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">نقش:</h6>
+                                <span class="text-secondary">دانش آموز</span>
+                            </li>
+                           
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- /Card Body (Card 2) -->
+
+                <!-- Card Body (Card 3) -->
+                <div class="card mt-2">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <h6 class="d-flex align-items-center"><i class="material-icons text-info me-2">Test</i>Status
+                            </h6>
+                        </li>
+                        {% if user.staff.role == group %} <a href="/list" style="text-decoration:none;">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <button class="btn btn-info col-12">لیست مشاهده</button>
+                            </li>
+                        </a>
+                        {% elif user.staff.role == teach %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center dropdown">
+                                <button class="btn btn-info col-12 " type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="True">
+                                    ثبت نمرات
+                                </button>
+                                <ul class="dropdown-menu col-12 " aria-labelledby="dropdownMenuButton1">
+                                    {% for class_name, subjects in grouped_assignments.items %}
+                                        <a href="{% url 'main:courses' class_name %}" style="text-decoration:none;">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-outline-info col-12">{{ class_name }}</button>
+                                            </li>
+                                        </a>{% endfor %}
+
+                                </ul>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center dropdown">
+                                <button class="btn btn-info col-12 " type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="True">
+                                    ثبت نمرات ترم
+                                </button>
+                                <ul class="dropdown-menu col-12 " aria-labelledby="dropdownMenuButton1">
+                                    {% for class_name, subjects in grouped_assignments.items %}
+                                        <a href="{% url 'main:final_courses' class_name %}"
+                                           style="text-decoration:none;">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-outline-info col-12">{{ class_name }}</button>
+                                            </li>
+                                        </a>{% endfor %}
+
+                                </ul>
+                            </li>
+                        {% elif user.staff.role == principal %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center dropdown">
+                                <button class="btn btn-info col-12 " type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="True">
+                                    ثبت نمرات
+                                </button>
+                                <ul class="dropdown-menu col-12 " aria-labelledby="dropdownMenuButton1">
+                                    {% for i in classes %}
+                                        <a href="{% url 'main:all_courses' i.slug %}" style="text-decoration:none;">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-outline-info col-12">{{ i }}</button>
+                                            </li>
+                                        </a>{% endfor %}
+
+                                </ul>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center dropdown">
+                                <button class="btn btn-info col-12 " type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="True">
+                                    ثبت نمرات ترم
+                                </button>
+                                <ul class="dropdown-menu col-12 " aria-labelledby="dropdownMenuButton1">
+                                    {% for i in classes %}
+                                        <a href="{% url 'main:all_courses' i.slug %}" style="text-decoration:none;">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <button class="btn btn-outline-info col-12">{{ i }}</button>
+                                            </li>
+                                        </a>{% endfor %}
+
+                                </ul>
+                            </li>
+                        {% else %}
+                            <a href="/reports/{{current_month}}" style="text-decoration:none;">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-info col-12">مشاهده نمرات</button>
+                                </li>
+                            </a>
+
+                            <a href="/final_reports/1" style="text-decoration:none;">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-info col-12">مشاهده نمرات ترم</button>
+                                </li>
+                            </a>
+
+                        {% endif %}
+                        {% if request.user.staff %}
+                            <a href={% url 'edit-info' %} style="text-decoration:none;">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-outline-info col-12">ویرایش اطلاعات شخصی</button>
+                                </li>
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'home_page' %}" style="text-decoration:none;">
+                            <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+                                <button class="btn btn-outline-info col-12">بازگشت به صفحه خانه</button>
+                            </li>
+                        </a>
+                        <a href="{% url 'pfp' %}" style="text-decoration: none">
+                            <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+
+                                <button class="btn btn-outline-info col-12"> بارگذاری عکس پروفایل</button>
+                            </li>
+                        </a>
+                    </ul>
+                </div>
+                <!-- /Card Body (Card 3) -->
+            </div>
+
+            <div class="col-md-8">
+                <!-- Card Body (Card 4) -->
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">نام</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.first_name }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">نام خانوادگی</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.last_name }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">شماره تماس</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.phone_number }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">کد کاربری</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.user_name }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">کد ملی</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{ user.nationality }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            {% if request.user.staff %}
+                                <div class="col-sm-12">
+                                    <a href={% url 'edit-info' %} class="btn btn-primary" target="__blank"
+                                    href="#">ویرایش</a>
+
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <!-- /Card Body (Card 4) -->
+
+                <div class="row gutters-sm">
+                    <!-- Card Body (Card 5) -->
+                    <div class="col-sm-12 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+
+                                <h6 class="d-flex align-items-center mb-3">{% if user.staff %}
+                                    <i class="material-icons text-info me-2">Test</i>Status{% endif %}</h6>
+                                {% if user.staff.role == principal %}
+                                    <a href="{% url 'all_contacts' %}">
+                                        <button class="btn btn-primary col-12 mb-4">پیام ها
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="18"
+                                                 height="18">
+                                                <path fill="#ffffff"
+                                                      d="M192 0c-41.8 0-77.4 26.7-90.5 64L64 64C28.7 64 0 92.7 0 128L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64l-37.5 0C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM72 272a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm104-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zM72 368a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0c0-8.8 7.2-16 16-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16z"/>
+                                            </svg>
+                                        </button>
+                                    </a>
+                                {% endif %}
+                                {% if user.staff.role == group %}
+                                    <a href={% url 'main:list' %}>
+                                        <button class="btn btn-primary col-12 mb-4">لیست کلاس ها
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="18"
+                                                 height="18">
+                                                <path fill="#ffffff"
+                                                      d="M192 0c-41.8 0-77.4 26.7-90.5 64L64 64C28.7 64 0 92.7 0 128L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64l-37.5 0C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM72 272a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm104-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zM72 368a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0c0-8.8 7.2-16 16-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16z"/>
+                                            </svg>
+                                        </button>
+                                    </a>
+                                {% elif user.staff.role == teach %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center dropdown">
+                                        <button class="btn btn-primary col-12 mb-4" type="button"
+                                                id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown" aria-expanded="True">
+                                            مشاهده کارنامه
+                                        </button>
+                                        <ul class="dropdown-menu col-12 " aria-labelledby="dropdownMenuButton1">
+                                            {% for class_name, subjects in grouped_assignments.items %}
+                                                <a href="{% url 'main:students' class_name.id %}"
+                                                   style="text-decoration:none;">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <button class="btn btn-outline-info col-12">{{ class_name }}</button>
+                                                    </li>
+                                                </a>{% endfor %}
+
+                                        </ul>
+                                    </li>
+                                {% elif user.staff.role == principal %}
+                                    <a href={% url 'main:list' %}>
+                                        <button class="btn btn-primary col-12 mb-4"> مشاهده کارنامه
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="18"
+                                                 height="18">
+                                                <path fill="#ffffff"
+                                                      d="M192 0c-41.8 0-77.4 26.7-90.5 64L64 64C28.7 64 0 92.7 0 128L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64l-37.5 0C269.4 26.7 233.8 0 192 0zm0 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM72 272a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm104-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zM72 368a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zm88 0c0-8.8 7.2-16 16-16l128 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-128 0c-8.8 0-16-7.2-16-16z"/>
+                                            </svg>
+                                        </button>
+                                    </a>
+                                {% endif %}
+                                {% if user.staff.role != principal %}
+                                    <a href='/contact-us'>
+                                        <button class="btn btn-primary col-12 mb-4">ارتباط با مدیر
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="18"
+                                                 height="18">
+                                                <path fill="#ffffff"
+                                                      d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                                            </svg>
+                                        </button>
+                                    </a>
+                                {% endif %}
+                                {% if not request.user.staff %}
+                                    <a href='{% url 'inbox' %}'>
+                                        <button class="btn btn-primary col-12 mb-4">صندوق دریافت ({{ messages_count }})
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="18"
+                                                 height="18">
+                                                <path fill="#ffffff"
+                                                      d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                                            </svg>
+                                        </button>
+                                    </a>
+                                {% endif %}
+                                <a href='/change-password'>
+                                    <button class="btn btn-primary col-12 mb-4">تغییر رمز عبور
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="18"
+                                             height="18">
+                                            <path fill="#ffffff"
+                                                  d="M224 64c-44.2 0-80 35.8-80 80l0 48 240 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0 0-48C80 64.5 144.5 0 224 0c57.5 0 107 33.7 130.1 82.3c7.6 16 .8 35.1-15.2 42.6s-35.1 .8-42.6-15.2C283.4 82.6 255.9 64 224 64zm32 320c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0z"/>
+                                        </svg>
+                                    </button>
+                                </a>
+                                <a href="logout">
+                                    <button class="btn btn-danger col-12 mb-4">خروج از اکانت
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="18"
+                                             height="18">
+                                            <path fill="#ffffff"
+                                                  d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"/>
+                                        </svg>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Card Body (Card 5) -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

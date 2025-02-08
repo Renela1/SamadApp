@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% block header %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+          integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <!--icons Link site-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <style>
+
+        select.readonly-select {
+
+            background-color: white;
+            -webkit-appearance: none; /* Safari and Chrome */
+            -moz-appearance: none; /* Firefox */
+            appearance: none;
+            pointer-events: none; /* Prevent clicking */
+            display: none;
+            border: none;
+        }
+
+        .field {
+            width: 100px;
+            text-align: center;
+            height: 35px;
+            font-size: 22px;
+
+            border: none;
+        }
+
+        .readonly {
+
+            appearance: none;
+
+            display: none;
+            border: none;
+        }
+
+        {% comment %} margin-right: 40px; {% endcomment %}
+
+        .btn-circle {
+            width: 60px;
+            height: 60px;
+            padding: 6px 0px;
+            border-radius: 30px;
+            text-align: center;
+
+            line-height: 1.42857;
+        }
+    </style>
+    <style>
+        header {
+            background-color: #6fa6f9e4;
+        }
+    </style>
+
+{% endblock %}
+{% block dir%}
+dir ="rtl"
+{% endblock %}
+{% block content %}
+<br><br>
+<h1 style="margin-right:9%; direction: rtl; margin-top: 100px"> ویرایش نمرات 
+     <a href="/final_courses/{{instance}}">{{ instance }}</a> ترم 
+     <a {% if turn == 1%} href="/finall_grade/{{instance.id}}/{{course}}/2" {% else %} href="/finall_grade/{{instance.id}}/{{course}}/1" {%endif%}> {{turn}} </a></h1>
+
+<div class="container mt-5" style="margin-left:15%;">
+    <!-- باکس اطلاعات -->
+    <div class="">
+
+    </div>
+
+    <!-- جدول -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {{ text_formset.management_form }}
+        <table class="table table-bordered shadow" style=" background-color:white;">
+           
+            <thead class="table-primary text-center">
+            <tr>
+                <td> 
+                    <table class="table table-bordered shadow" style="margin-top:20px;">
+                    <td>
+                        نام دانش آموز
+                    </td>
+                </table>
+                </td>
+                <td> 
+                    <table class="table table-bordered shadow" style="margin-top:20px;">
+                    <td>
+                        کلاس
+                    </td>
+                </table>
+                </td>
+                <td> 
+                    <table class="table table-bordered shadow" style="margin-top:20px;">
+                    <td>
+                        درس
+                    </td>
+                </table>
+                </td>
+  
+           
+                    <td> {{i.date}}
+                        
+                        <table class="table table-bordered shadow" style="margin-top:20px;">
+                            
+                            {% if course.grade_type == a %}
+                            <td>
+                                عملی
+                            </td>
+                            <td>
+                                تئوری
+                            </td>
+                            {% elif course.grade_type == b %}
+
+                            <td>
+                                مهارتی
+                            </td>
+                            <td>
+                                تئوری
+                            </td>
+
+                            {% endif %}
+
+                            
+                        </table>
+    
+                        
+                        </td>
+            
+            </tr>
+            </thead>
+            <tbody>
+                
+          
+        </thead>
+        <tbody>
+            
+            {% for student, subjects in grouped_data.items %}
+            
+            {% for subject, formset in subjects.items %}
+            
+                <tr>
+                   
+                    <td>{{ student.first_name }} {{student.last_name}}</td>
+                    <td>{{ student.classes }}</td>
+                    <td>{{ subject }}</td>
+                    {% for form in formset %}
+                    <td style="width:20%; height:20px;">
+                        
+                        <div><table class="table table-bordered shadow">
+
+                        <td> {{ form.grades_amali}}</td>
+                        <td>{{ form.grades_theory }}</td>
+                        
+                        </table>
+                        <div style="color: red">{{ form.errors }}</div>
+                        </div>
+
+                        {{ form.student }}
+                        {{ form.classes }}
+                        {{ form.subject }}
+                        {{ form.id }}
+                        {{ form.slug.label }}
+                        {{ form.attended }} <!-- Adjust field name as needed -->
+
+
+                    </td>
+      
+                    {% endfor %}
+                </tr> 
+                {% endfor %}
+            {% endfor %}
+           
+            
+        
+            </tbody>
+            
+        </table>
+        <button type="submit" id="save-button" class="btn btn-primary">ذخیره تغییرات</button>
+        <a href="/class_finall_grade/{{instance.id}}/{{course}}/{{turn}}" class="btn btn-success">ثبت نمرات ترم</a>
+        {% if grade_count == 0 and turn == 1%}
+        <div>
+                
+                <br><button type="submit" id="save" name='add_new' class='btn btn-outline-success btn-circle' style='margin-bottom:1%;'> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"  fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg></button><br>
+                
+        </div>
+        {% elif turn == 2 and grade_count == 0 %}
+        <div>
+                
+                <br><button type="submit" id="save" name='add_new' class='btn btn-outline-success btn-circle' style='margin-bottom:1%;'> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"  fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg></button><br>
+                
+        </div>
+        {% endif %}
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous">
+
+</script>
+<script>
+    
+    document.getElementById('save-button').addEventListener('click', function (event) {
+        // Select all fields ending with '-your_field_name' in the formset
+        console.log(`Field value`);
+        const fields = document.querySelectorAll('input[name$="-grades_theory"]');
+        
+        let showPopup = false;
+        
+        fields.forEach((field) => {
+            const fieldValue = parseFloat(field.value) || 0; // Handle empty or invalid input gracefully
+            console.log(`Field value: ${fieldValue}`); // Debugging output
+    
+            if (fieldValue < 10) {
+                showPopup = true; // Set the flag to true if any field is less than 10
+            }
+        });
+    
+        if (showPopup) {
+            const userConfirmed = confirm("One or more fields are less than 10. Are you sure you want to save?");
+            if (!userConfirmed) {
+                event.preventDefault(); // Prevent submission if the user cancels
+            }
+        }
+    });
+</script>
+</body>
+
+</html>
+{% endblock %}

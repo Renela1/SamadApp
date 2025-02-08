@@ -1,0 +1,97 @@
+body {
+    background: linear-gradient(135deg, #6A11CB, #2575FC);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-form {
+    flex: 1 1 300px;
+}
+
+.illustration {
+    flex: 1 1 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration img {
+    max-width: 100%;
+    height: auto;
+}
+
+.btn-new {
+    background: linear-gradient(45deg, #60909a, #53b6ca);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+}
+
+.btn-new:hover {
+    color: #fff;
+    box-shadow: 5px 5px 20px #60909a93;
+    transform: scale(1.05);
+}
+
+.form-floating-label {
+    position: relative;
+}
+
+.form-floating-label input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    margin: 5px;
+    padding: 1rem 0.75rem;
+    outline: none;
+    font-size: 1rem;
+}
+
+.form-floating-label label {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 0 0.25rem;
+    font-size: 1rem;
+    color: #aaa;
+    transition: 0.3s ease;
+}
+
+.form-floating-label input:focus + label,
+.form-floating-label input:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 0.5rem;
+    font-size: 0.875rem;
+    color: #60909a;
+}
+
+.show-password {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #000000;
+}

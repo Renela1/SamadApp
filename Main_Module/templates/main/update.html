@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% block dir %}
+	dir='rtl'
+{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link rel="stylesheet" href="static/css/readonly.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <!-- لینک Font Awesome -->
+    <link rel="stylesheet" href="/static/css/honar.css">
+    <style>
+
+    select.readonly-select {
+        background-color: white;
+        -webkit-appearance: none; /* Safari and Chrome */
+        -moz-appearance: none; /* Firefox */
+        appearance: none;
+        pointer-events: none;  /* Prevent clicking */
+        display: none;
+        border: none;
+    }
+
+    .field {
+        width: 20px;
+    }
+
+    .readonly {
+
+        background-color: white;
+        -webkit-appearance: none; /* Safari and Chrome */
+        -moz-appearance: none; /* Firefox */
+        appearance: none;
+        pointer-events: none;  /* Prevent clicking */
+
+        border: none;
+    }
+
+    .btn-circle {
+        width: 60px;
+        height: 60px;
+        padding: 6px 0px;
+        border-radius: 30px;
+        text-align: center;
+
+        line-height: 1.42857;
+    }
+
+    input[type="checkbox"] {
+        width: 1.5em;
+        height: 1.5rem;
+
+      }
+
+</style>
+    <style>
+        header {
+            background-color: #6fa6f9e4;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+{#	<body dir='rtl'>#}
+<br>
+<h1 style="margin-right:13%; font-size:30px; margin-top: 120px"> لیست حضور و غیاب {{ instance }}</h1>
+
+<div class="container mt-5" style="margin-left:10%;">
+    <!-- باکس اطلاعات -->
+
+    {% if messages %}
+                {% for message in messages %}
+                    <article class="message is-success">
+                        <div class="message-header">
+                            <p>Success!</p>
+                        </div>
+                        <div class="message-body">
+                            {{ message }}
+                        </div>
+                    </article>
+                {% endfor %}
+            {% endif %}
+
+    <!-- جدول -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table class="table is-hoverable is-fullwidth" dir='rtl'>
+            <thead>
+            <tr style="font-size:20px;">
+                <td style="font-size:20px; padding-bottom:20px;"> دانش آموز </td>
+                <td> زنگ اول  </td>
+                <td> زنگ دوم  </td>
+                <td> زنگ سوم  </td>
+                <td> زنگ چهارم  </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+
+            </tr>
+            </thead>
+            <tbody dir='rtl'>
+                {% for form in formset %}
+                <tr class='formset'>
+
+                    {% for field in form %}
+                        <td class='formset' style="padding-top:17px;">
+
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small>{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+
+                        </td>
+
+                    {% endfor %}
+
+                        <td style="padding-top:12px;"><button type="button" class="check-form btn btn-outline-primary btn-sm">Check All</button></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table><br>
+        <button type="submit" class="btn btn-primary ">ذخیره</button> <button type='submit' name='send-message' class='btn btn-outline-success' >ارسال پیغام</button> <br>
+        <div>
+
+            <table>
+
+                {% for i in student%}
+                <tr>
+                <td><a href={% url 'main:update' i.id course i.classes.id %}>{{i.first_name}}</a></td>
+                </tr>
+                {% endfor %}
+
+                {% if count == 0 %}
+                <br><button type="submit" name='add_new' class='btn btn-outline-info btn-circle' style='margin-bottom:1%;'> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"  fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg></button><br>
+                {% endif %}
+
+            </table>
+
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous">
+
+</script>
+<script>
+    // Select all "Check All in This Form" buttons
+    const buttons = document.querySelectorAll('.check-form');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Find the closest formset container for the clicked button
+            const formset = button.closest('.formset');
+
+            // Select all checkboxes within this formset
+            const checkboxes = formset.querySelectorAll('input[type="checkbox"]');
+
+            // Check if all checkboxes are already checked
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+            // Toggle the checked state
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = !allChecked;
+            });
+        });
+    });
+
+</script>
+<script>
+    fetch('/attendance_check/')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(record => {
+            const checkbox = document.querySelector(`input[data-record-id="${record.id}"]`);
+            if (checkbox) {
+                checkbox.checked = record.attended;
+            }
+        });
+    });
+</script>
+{#</body>#}
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load jalali_tags %}
+{% block title %}
+    Contacts
+{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="/static/css/contacts_principal.css">
+    <link rel="stylesheet" href="/static/css/contacts.css">
+{% endblock %}
+{% block content %}
+    <!-- Main Layout Start -->
+    <div class="is-rtl col-md-12" style="z-index: 90; margin-top: 6%">
+        <!-- Sidebar Start -->
+        <aside>
+            <!-- Chat Header Start -->
+            <div class="sidebar-header sticky-top p-2">
+                <h5 class="font-weight-semibold mb-0">لیست مخاطبین</h5>
+            </div>
+            <!-- Chat Header End -->
+
+            <!-- Chat Contact List Start -->
+            <ul class="contacts-list" id="chatContactTab" data-chat-list="">
+                <!-- Chat Item Start -->
+                {% for contact in contacts %}
+                    <li class="contacts-item friends">
+                        <a class="contacts-link"
+                           href="{% url 'reply_contact' first_name=contact.first_name last_name=contact.last_name %}">
+                            <div class="avatar">
+                                {% if contact.student__profile_photo %}
+                                    {% thumbnail contact.student__profile_photo "40x40" crop="center" quality=85 as thumb %}
+                                    <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}">
+                                {% endif %}
+                            </div>
+                            <div class="contacts-content">
+                                <div class="contacts-info">
+                                    <h6 class="chat-name text-truncate">
+                                        {{ contact.first_name }} {{ contact.last_name }}
+                                        {% if contact.unread != 0 %}
+                                            <div class="badge badge-rounded badge-primary ml-1">
+                                                {{ contact.unread }}
+                                            </div>
+                                        {% endif %}
+                                    </h6>
+                                    <div class="chat-time">{{ contact.date | to_jalali }} - {{ contact.time }}</div>
+                                </div>
+                                <div class="contacts-texts">
+                                    <p class="text-truncate">{{ contact.message }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+                <!-- Chat Item End -->
+                <!-- Add more items here as necessary -->
+            </ul>
+            <!-- Chat Contact List End -->
+        </aside>
+        <!-- Sidebar End -->
+    </div>
+    <!-- Main Layout End -->
+{% endblock %}

@@ -1,0 +1,192 @@
+{% load render_partial %}
+<!DOCTYPE html>
+<html lang="en" {% block dir%} {% endblock %}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header {
+            background-color: #ffffff81;
+            border: 2px solid #ffffff;
+            color: black;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: calc(100% - 120px);
+            padding: 8px 30px;
+            position: fixed;
+            top: 0px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        header.scrolled {
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo img {
+            width: 40px;
+            height: auto;
+            margin-left: 10px;
+        }
+
+        nav {
+            position: relative;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            padding: 10px 15px;
+            display: inline-block;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0%;
+            height: 2px;
+            background-color: #333;
+            transform: translateX(-50%);
+            transition: width 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 50%;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 250px;
+            height: 100%;
+            background-color: #cecece;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: right 0.5s ease-in-out;
+        }
+
+        .mobile-menu.open {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: #555;
+            padding: 15px;
+            display: block;
+            text-align: right;
+            border-bottom: 1px solid #f1f1f1;
+            transition: border-bottom 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+    <style>
+        /*CSS Footer Site */
+        html, body {
+            height: 100%; /* تنظیم ارتفاع صفحه */
+            margin: 0;
+        }
+
+        body {
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1; /* این بخش فضای باقی‌مانده را پر می‌کند */
+        }
+
+        .footer {
+            background-color: white;
+            padding: 20px 0;
+        }
+
+        .footer-item {
+            transition: 0.2s;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .footer-item:hover {
+            color: #238aff;
+        }
+
+        .footer-link {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .footer-header {
+            border-bottom: 3px solid;
+            height: 35px;
+        }
+
+        .footer-link:hover {
+            color: #000;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const header = document.querySelector('header');
+            const closeMenu = document.querySelector('.menu-close');
+
+            menuToggle.addEventListener('click', function () {
+                if (mobileMenu.classList.contains('open')) {
+                    mobileMenu.classList.remove('open');
+                } else {
+                    mobileMenu.classList.add('open');
+                }
+            });
+
+            closeMenu.addEventListener('click', function () {
+                mobileMenu.classList.remove('open');
+            });
+
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+    <title>{% block title %}{% endblock %}</title>
+    {% block header %}{% endblock %}
+</head>
+<body class="{% block class %}{% endblock %}" style="{% block style%} {% endblock %}">
+    {% render_partial 'Home_Module.views.site_header' %}
+        {% block content %}{% endblock %}
+    {% block footer %}{% endblock %}
+</body>
+</html>

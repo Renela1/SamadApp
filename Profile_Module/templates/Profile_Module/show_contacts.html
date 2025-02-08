@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load jalali_tags %}
+{% block title %}
+    Show Contacts
+{% endblock %}
+{% block header %}
+    <link rel="stylesheet" href="/static/css/contacts_principal.css">
+    <link rel="stylesheet" href="/static/css/contacts.css">
+{% endblock %}
+{% block content %}
+    <!-- Main Layout Start -->
+    <div class="is-rtl col-md-12" style="z-index: 90; margin-top: 6%">
+        <!-- Sidebar Start -->
+
+            <!-- Chat Header Start -->
+            <div class="sidebar-header sticky-top p-2">
+                <h5 class="font-weight-semibold mb-0">لیست مخاطبین</h5>
+            </div>
+            <!-- Chat Header End -->
+
+            <!-- Chat Contact List Start -->
+            <ul class="contacts-list" id="chatContactTab" data-chat-list="">
+                {% for role, details in x.items %}
+                    <li class="contacts-item friends">
+                        <a class="contacts-link" href="{% url 'send_notification' role=role %}">
+                            <div class="contacts-content">
+                                <div class="contacts-info">
+                                    <h6 class="chat-name text-truncate">
+                                        {% if role == 'student' %}
+                                            دانش آموزان
+                                        {% elif role == 'teacher' %}
+                                            معلم ها
+                                        {% elif role == 'staff' %}
+                                            معاونین
+                                        {% endif %}
+                                    </h6>
+                                    <div class="chat-time">
+                                        {% if details.time %}
+                                            {{ details.date }} - {{ details.time }}
+                                        {% else %}
+                                            <span>بدون پیام</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="contacts-texts">
+                                    <p class="text-truncate">
+                                        {% if details.message %}
+                                            {{ details.message }}
+                                        {% else %}
+                                            <span>هیچ پیامی وجود ندارد</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <!-- Chat Contact List End -->
+    </div>
+    <!-- Main Layout End -->
+{% endblock %}

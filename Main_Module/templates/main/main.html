@@ -1,0 +1,13 @@
+<html>
+
+<head>
+</head>
+    <body>
+      <form method="post" action="{% url 'main:home' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Promote Students</button>
+    </form>
+
+    </body>
+
+</html>

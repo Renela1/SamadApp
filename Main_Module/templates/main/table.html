@@ -1,0 +1,33 @@
+{% block content %}
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/css/table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+  
+  </head><br>
+  <body style="background-color:rgb(240, 240, 240)">
+    <div class="container">
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-4">نام </div>
+          <div class="col col-3">درس</div>
+          <div class="col col-4">کلاس</div>
+          <div class="col col-4">میانگین نمرات</div>
+          <div class="col col-4">ویرایش نمرات</div>
+          <div class="col col-3">ثبت نمرات جدید</div>
+        </li>
+        {% for i in report %}
+        <li class="table-row">
+          <div class="col col-4" data-label="نام">{{i.student.first_name}} {{i.student.last_name}}</div>
+          <div class="col col-3" data-label="درس">{{i.subject}}</div>
+          <div class="col col-4" data-label="کلاس">{{i.classes}}</div>
+          <div class="col col-4" data-label="میانگین نمرات">{{i.sum}}</div>
+          <div class="col col-3" data-label="ثبت نمرات جدید"><a href="{% url 'main:report_card' i.id %}" style="text-decoration:none;"> edit {{i.date}} </a></div>
+          <div class="col col-4" data-label="ویرایش نمرات"><a href="{% url 'main:add' i.id %}" style="text-decoration:none;"> ثبت نمرات </a></div>
+        </li>
+        {%endfor%}
+      </ul>
+    </div>
+  </body>
+</html>
+{%endblock content%}

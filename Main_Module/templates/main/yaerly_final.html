@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول و باکس اطلاعات</title>
+    <!-- لینک بوت‌استرپ 5 -->
+     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- لینک Font Awesome -->
+    <link rel="stylesheet" href="/static/css/honar.css">
+
+<body style="background-color:rgb(240, 240, 240);">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow">
+            <div class="container">
+                <a class="navbar-brand" href="#">Honsarestan</a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item me-4">
+                            <a class="nav-link active" aria-current="page" href="#">صفحه ای اصلی</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="{% url 'profile' %}" tabindex="-1" aria-disabled="true">بازگشت به پروفایل</a>
+                        </li>
+                   
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    
+    <br><br><br><br>
+    
+<br>
+
+<h1 style="margin-right:12%;">مشاهده نمرات پایانی {{detail.first_name}} {{detail.last_name}} </h1>
+    <br><h4 style="margin-right:10%;">
+    {% for i in month_count %}
+
+    <a href="{{i}}" style="text-decoration:none; margin-right:2%;" >
+        {% if i == 8 %} شهریور {%endif%}{% if i == 7 %} مرداد{%endif%}{% if i == 6 %} تیر {%endif%}
+        {% if i == 5 %} خرداد {%endif%}{% if i == 4 %} ادریبهشت {%endif%}{% if i == 2 %} فروردین {%endif%}
+        {% if i == 3 %} اسفند {%endif%}{% if i == 1 %} بهمن {%endif%}{% if i == 12 %} دی {%endif%}
+        {% if i == 11 %} آذر {%endif%}{% if i == 10 %} آبان{%endif%}{% if i == 9 %} مهر {%endif%} </a>
+    {% endfor %}
+    </h4>
+ 
+    <div class="container mt-5">
+        <!-- باکس اطلاعات -->
+        <div class="">
+         
+        </div>
+
+        <!-- جدول -->
+     
+            
+        <table class="table table-bordered shadow" style="background-color:white;">
+            <thead class="table-primary text-center">
+            <tr>
+                <th>دروس</th>
+                {% for turn in unique_turns %}
+                    <th> نوبت {{ turn }}</th>
+                {% endfor %}
+
+
+                <th> میانگین </th>
+                <td></td>
+            </tr>
+       
+        </thead>
+        <tbody>
+            {% for row in table_rows_a %}
+                <tr>
+                    {% for cell in row %}
+                    {% if forloop.last%}
+                    
+                        <td class="status-cell">{{ cell|default_if_none:"-" }}</td>
+                    
+                    {% else %}
+                    <td class="average-cell" >{{ cell|default_if_none:"-" }}</td>
+                    
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="{{unique_dates_a}}">Total Average</td>
+                {% for turn in unique_turns%}
+                
+                <td></td>
+                
+                {% endfor %}
+                
+                {% if rounded_total_average >= 10%}
+                <td style="background-color:rgb(200, 200, 250)">{{ rounded_total_average }}</td>
+                {% elif rounded_total_average <= 10 %}
+                <td style="background-color:rgb(230, 100, 100)">{{ rounded_total_average }}</td>
+                {% endif %}
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous">
+
+</script>
+<script>
+    function updateGradeColors() {
+        // Select all rows in the table body
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            // Get the status cell and the average grade cell
+            const statusCell = row.querySelector(".status-cell");
+            const averageCell = row.querySelector(".average-cell");
+
+            // Ensure both cells exist in the current row
+            if (statusCell && averageCell) {
+                // Get the trimmed text content of the status cell
+                const statusText = statusCell.textContent.trim();
+
+                // Apply color based on the status
+                if (statusText === "Passed") {
+                    averageCell.style.backgroundColor = "rgb(100, 220 ,100)";
+                    averageCell.style.color = "black"; // Adjust text color for better visibility
+                } else if (statusText === "Did not pass") {
+                    averageCell.style.backgroundColor = "rgb(240, 100 ,100)";
+                    averageCell.style.color = "white"; // Adjust text color for better visibility
+                }
+            }
+        });
+    }
+
+    // Call the function on page load
+    window.onload = updateGradeColors;
+</script>
+</body>
+
+</html>
+    
+</body>
+
+</html>
+    

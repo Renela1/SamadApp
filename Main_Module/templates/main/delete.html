@@ -1,0 +1,113 @@
+{%load static%}
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static '/css/main.css' %}">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+        <link rel="stylesheet" href="admin.css" />
+        <title>Its</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="TemplateMo">
+        
+        <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    
+        <title>Education Meeting HTML5 Template</title>
+    
+        <!-- Bootstrap core CSS -->
+        <link href="static/assets/bootstrap.min.css" rel="stylesheet">
+    
+    
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" href="/static/assets/fontawesome.css">
+        <link rel="stylesheet" href="/static/assets/templatemo-edu-meeting.css">
+        <link rel="stylesheet" href="/static/assets/owl.css">
+        <link rel="stylesheet" href="/static/assets/lightbox.css">
+    </head>
+
+<body background="iteampj/static/images/meetings-bg.jpg">
+
+        <div class="upcoming-meetings">
+    
+        <div class="card card-body">
+            <p> Are you sure you want to remove "{{item.grades}}" ?</p>
+            <form method="POST" action="{% url 'main:delete' item.id %}">
+                {% csrf_token %}
+              
+                <input class="btn btn-danger" type="submit" name="Remove" value="Remove">
+                
+
+
+            </form>
+        </div>
+    </div>
+</div> 
+</div>
+</div>
+<script src="/static/assets/jquery.min.js"></script>
+    <script src="/static/assets/bootstrap.min.js"></script>
+
+    <script src="/static/assets/isotope.min.js"></script>
+    <script src="/static/assets/owl-carousel.js"></script>
+    <script src="/static/assets/lightbox.js"></script>
+    {% comment %} <script src="/static/assets/tabs.js"></script>
+    <script src="/static/assets/video.js"></script>
+    <script src="/static/assets/slick-slider.js"></script>
+    <script src="/static/assets/custom.js"></script> {% endcomment %}
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+
+</html>
+    </body>
+</html>

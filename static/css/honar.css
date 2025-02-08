@@ -1,0 +1,214 @@
+@font-face {
+  font-family: "Vazir";
+  src: url("../fonts/Vazir.eot");
+  /* IE9 Compat Modes */
+  src: url("../fonts/Vazir.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Vazir.woff2") format("woff2"),
+    url("../fonts/Vazir.woff") format("woff"),
+    url("../fonts/Vazir.ttf") format("truetype");
+  /* Safari, Android, iOS */
+}
+
+
+/*CSS Icons Site */
+.icon {
+  color: #0d6efd;
+  background-color: #ebeafb;
+  display: inline-flex;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+/*CSS Menu Site*/
+.navbar {
+  background: linear-gradient(90deg, #006be4, #003663);
+  border-bottom: 3px solid #238aff;
+  text-decoration: none;
+  padding: 10px 20px;
+}
+
+/*--CSS Button Menu Site*/
+.nav-item {
+  transition: 0.2s;
+  border: 3px solid #00559b00;
+  border-radius: 8px;
+}
+
+.nav-item:hover {
+  border: 3px solid #be00e4;
+  border-radius: 8px;
+}
+
+.navbar-nav .nav-link {
+  color: white !important; /* رنگ نوشته‌ها */
+}
+
+.navbar-nav .nav-link.active {
+  color: white !important; /* رنگ نوشته فعال */
+}
+
+.navbar-nav .dropdown-item,
+.dropdown-menu {
+  color: white !important; /* رنگ نوشته‌های منوی کشویی */
+  background: #ffffff;
+}
+
+.navbar-nav .dropdown-item:hover {
+  /* رنگ نوشته‌های منوی کشویی در حالت hover */
+  border: 3px solid #000000;
+  border-radius: 8px;
+}
+
+.btn{
+
+  padding-top: 5px;
+
+  margin-top: -5px;
+}
+
+.btn-outline-dark{
+  margin-top: 5px;
+}
+
+.btn-outline-dark:hover{
+  background-color: rgba(31, 100, 228, 0.973);
+
+}
+
+
+.navbar-brand {
+  color: white !important; /* رنگ لوگو */
+}
+.navbar-toggler {
+  color: #003663 !important;
+  background-color: aliceblue;
+  border: #003663;
+  padding: 5px;
+  margin: 4px;
+}
+/*End CSS Menu Site*/
+
+/*CSS Section Reshte*/
+.card{
+    transition: 0.3s;
+    box-shadow: 1px 8px 18px rgb(216, 216, 216);
+    border:1px solid #0099ff;
+    border-radius: 15px;
+    background-color: #84d5e979;
+}
+.card-body{
+  transition: 0.3s;
+  box-shadow: 1px 8px 18px rgb(216, 216, 216);
+
+  border-radius: 15px;
+  padding-top: 15px;
+  background-color: white;
+}
+  
+/*End CSS Section Reshte*/
+
+/*CSS Section Emkanat */
+.card-custom {
+  background: linear-gradient(90deg, #014ea7, rgb(41, 107, 253));
+  border: none;
+  box-shadow: 1px 1px 25px rgb(41, 107, 253);
+}
+.features-list {
+  list-style: none;
+  padding: 0;
+}
+.btn-custom {
+  background-color: #e5e5e5;
+  color: #2b4a42;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.btn-custom:hover {
+  background-color: #e5e5e5;
+  color: rgb(41, 107, 253);
+}
+.illustration {
+  max-width: 300px;
+  height: 300px;
+}
+.features-list .feature-item {
+  position: relative;
+  padding-right: 2em;
+  margin-bottom: 1rem;
+}
+.features-list .feature-item::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0.1em;
+  width: 13px;
+  height: 13px;
+  border: 3px solid #e5e5e5;
+  border-radius: 50%;
+}
+/*End CSS Section Emkanat */
+
+
+/* Title Text Site */
+.highlighted-text {
+    background: linear-gradient(transparent 50%, #006ae480 70%); /* Light pink highlight */
+    color: #1c3b5a; /* Dark blue text */
+    font-size: 1.5rem;
+    padding: 0.2rem 0.7rem;
+    display: inline;
+}
+
+
+/* Buttons News Section */
+.btn-news  {
+  border-radius: 20px;
+  background: linear-gradient(90deg, #004089, rgb(51, 114, 249));
+  box-shadow: 1px 1px 15px #38a5ff;
+  transition: 0.3s; 
+}
+.btn-news:hover  {
+  transform: translateY(-5px); 
+}
+
+
+/*CSS Slider Site */
+.carousel-inner {
+  box-shadow: 1px 1px 35px #0154b39d;
+  border-radius: 28px;
+}
+
+
+/*CSS Items Footer*/
+.bi {
+  transition: 0.2s;
+}
+
+.bi:hover {
+  color: #006be4;
+}
+
+/*CSS Footer Site */
+.footer-item{
+  transition: 0.2s;
+  color: #000;
+  text-decoration:none;
+}
+
+.footer-item:hover{
+  color: #238aff;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000;
+  }
+  .footer-header {
+    border-bottom: 3px solid;
+    height: 35px;
+  }
+  
+  .footer-link:hover {
+    color: #000;
+  }

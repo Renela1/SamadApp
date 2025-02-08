@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block header %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+          integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <!--icons Link site-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <style>
+
+        select.readonly-select {
+
+            background-color: white;
+            -webkit-appearance: none; /* Safari and Chrome */
+            -moz-appearance: none; /* Firefox */
+            appearance: none;
+            pointer-events: none; /* Prevent clicking */
+            display: none;
+            border: none;
+        }
+
+        .field {
+            width: 100px;
+            text-align: center;
+            height: 35px;
+            font-size: 22px;
+
+            border: none;
+        }
+
+        .readonly {
+
+            appearance: none;
+
+            display: none;
+            border: none;
+        }
+
+        {% comment %} margin-right: 40px; {% endcomment %}
+
+        .btn-circle {
+            width: 60px;
+            height: 60px;
+            padding: 6px 0px;
+            border-radius: 30px;
+            text-align: center;
+
+            line-height: 1.42857;
+        }
+    </style>
+    <style>
+        header {
+            background-color: #6fa6f9e4;
+        }
+    </style>
+
+{% endblock %}
+{% block dir%}
+dir ="rtl"
+{% endblock %}
+{% block content %}
+<br>
+<body>
+
+<br><br><br><br>
+<h1 style="margin-right:5%;">ویرایش نمرات کلاسی {{ instance }}</h1>
+
+<div class="container mt-5" style="margin-left:15%;">
+    <!-- باکس اطلاعات -->
+    <div class="">
+
+    </div>
+
+    <!-- جدول -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {{ text_formset.management_form }}
+        <table class="table table-bordered shadow" style=" background-color:white;">
+           
+            <thead class="table-primary text-center">
+            <tr>
+                <td> نام دانش آموز  </td>
+                <td> کلاس  </td>
+                <td> درس  </td>
+                <td> نمره کلاسی  </td>
+                {% for i in description_query %}
+                
+                    <td> {{i.date}} </td>
+                
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+                
+                {% for student, subjects in grouped_data.items %}
+                
+                {% for subject, formset in subjects.items %}
+                
+                    <tr>
+                       
+                        <td>{{ student.first_name }} {{student.last_name}}</td>
+                        <td>{{ student.classes }}</td>
+                        <td>{{ subject }}</td>
+                        {% for form in formset %}
+                        <td style="width:10%; height:20px;">
+                            
+                            {{ form.as_p }} <!-- Adjust field name as needed -->
+
+
+                        </td>
+                        {% endfor %}
+                    </tr>  
+                    
+                {% endfor %}
+            {% endfor %}
+            <td>توضیخات :</td>
+            <td></td>
+            <td></td>
+            {% for forms in text_formset %}
+            
+            <td>{{ forms.as_p }}</td>
+            
+            {% endfor %}
+           
+            </tbody>
+            
+        </table>
+        <button type="submit" class='btn btn-primary'>ذخیره تغییرات</button>
+        <a href="/finall_grade/{{instance.id}}/{{course}}/{{turn}}" class="btn btn-danger">بازگشت</a>
+        <div>
+        {% if grade_count == 0 and turn == 1%}      
+                <br><button type="submit" name='add_new' class='btn btn-outline-success btn-circle' style='margin-bottom:1%;'> <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"  fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg></button><br>
+        {% endif %}
+                
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous">
+
+</script>
+</body>
+
+</html>
+{% endblock %}

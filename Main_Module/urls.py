@@ -1,0 +1,46 @@
+from django.urls import path
+from . import views
+from .views import attendance_check, mark_complete, mark_complete2, mark_complete3, mark_complete4, mark_incomplete, \
+    mark_incomplete2, mark_incomplete3, mark_incomplete4, message_parents
+
+app_name = 'main'
+urlpatterns = [
+    path("home", views.index, name="home"),
+    path("add/<str:pk>/", views.add_grade, name="add"),
+    path("coursesview/<slug:slug>/<slug:slug2>/<slug:slug3>", views.courses_view, name='coursesview'),
+    path("courses_date/<slug:slug>/<slug:slug2>/", views.courses_date, name='courses_date'),
+    path("courses/<slug:slug>", views.courses, name='courses'),
+    path("final_courses/<slug:slug>", views.final_courses, name='final_courses'),
+    path("all_courses/<slug:slug>", views.all_courses, name='all_courses'),
+    path("list", views.class_list, name="list"),
+    path("reports/<slug:month>", views.report_card, name="reports"),
+    path("final_reports/<slug:turn>", views.report_final, name="final_reports"),
+    path("students/<slug:slug>/", views.ReportTemplateView.as_view(), name='students'),
+    path("student_detail/<slug:slug>/<slug:month>", views.student_view, name="student_detail"),
+    path("student_final/<slug:slug>/<slug:turn>", views.student_final, name="student_final"),
+    path("checkbox", views.attendance, name="checkbox"),
+    path("attendance/<slug:slug>/<slug:date>", attendance_check, name="attendance"),
+    path('attendance/<slug:slug>/mark_complete/<int:todo_id>/', mark_complete, name="mark_complete"),
+    path('attendance/<slug:slug>/mark_complete2/<int:todo_id>/', mark_complete2, name="mark_complete"),
+    path('attendance/<slug:slug>/mark_complete3/<int:todo_id>/', mark_complete3, name="mark_complete"),
+    path('attendance/<slug:slug>/mark_complete4/<int:todo_id>/', mark_complete4, name="mark_complete"),
+    path('attendance/<slug:slug>/mark_incomplete/<int:todo_id>/', mark_incomplete, name="mark_incomplete"),
+    path('attendance/<slug:slug>/mark_incomplete2/<int:todo_id>/', mark_incomplete2, name="mark_incomplete"),
+    path('attendance/<slug:slug>/mark_incomplete3/<int:todo_id>/', mark_incomplete3, name="mark_incomplete"),
+    path('attendance/<slug:slug>/mark_incomplete4/<int:todo_id>/', mark_incomplete4, name="mark_incomplete"),
+    path('attendance/<slug:slug>/massage/<int:todo_id>/', message_parents, name="massage"),
+    path('delete/<str:pk>', views.delete, name='delete'),
+    path('update/<int:parent_id>/<slug:completion_date>', views.update_grades, name='update'),
+    path('student_list/<slug:subject>/<int:classes>', views.student_list, name='student_list'),
+    path('report/student_progress/<curse_name>/', views.student_progress_view, name='student_progress'),
+    path('detail_progress/<slug:slug>/<curse_name>/', views.student_progress, name='detail_progress'),
+    path('add_grade_a/<int:parent_id>/<slug:subject>', views.add_grade_a, name='add_grade_a'),
+    path('add_grade_b/<int:parent_id>/<slug:subject>', views.add_grade_p, name='add_grade_b'),
+    path('add_grade_c/<int:parent_id>/<slug:subject>', views.add_grade_c, name='add_grade_c'),
+    path('finall_grade/<slug:parent_id>/<slug:subject>/<slug:turn>', views.final_grade, name='finall_grade'),
+    path('class_finall_grade/<slug:parent_id>/<slug:subject>/<slug:turn>', views.class_final_grade,
+         name='class_finall_grade'),
+    path('summer_grade/<slug:parent_id>/<slug:subject>/', views.summer_grades, name='summer_grade'),
+    path('yearly_final/<slug:slug>/', views.yearly_final, name='yearly_final'),
+    path('allow/<str:parent_id>/', views.allow_promotion, name='allow'),
+]

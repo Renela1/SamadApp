@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block header %}
+	<link rel="stylesheet" href="/static/css/table.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <style>
+        header {
+            background-color: #6fa6f9e4;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container" style="margin-top: 120px; background-color: #cccccc; padding: 80px">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-4">نام</div>
+                <div class="col col-3">درس</div>
+                <div class="col col-4">کلاس</div>
+
+            </li>
+            {% for i in lists %}
+                <li class="table-row">
+
+                    <div class="col col-4" data-label="میانگین نمرات">{{ i }}</div>
+                    <div class="col col-3" data-label=" لیست حضور و غیاب "><a href="{% url 'main:update' i.id date %}"
+                                                                              style="text-decoration:none;"> لیست حضور و
+                        غیاب </a></div>
+                    <div class="col col-4" data-label="مشاهده نمرات"><a
+                            href={% url 'main:students' i.id %} style="text-decoration:none;"> مشاهده نمرات</a></div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

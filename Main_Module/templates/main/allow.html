@@ -1,0 +1,101 @@
+{% load thumbnail %}
+{% load jalali_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>لیست مخاطبین - InstaC Chat Template</title>
+    <link rel="stylesheet" href="/static/css/contacts_principal.css">
+    <link rel="stylesheet" href="/static/css/contacts.css">
+    <link rel="stylesheet" href="/static/css/honar.css">
+</head>
+<body>
+
+<!-- <body class="chats-tab-open modal-open"> -->
+
+<!-- Main Layout Start -->
+<div class="is-rtl col-md-12">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow">
+            <div class="container">
+                <a class="navbar-brand" href="#">Honsarestan</a>
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item me-4">
+                            <a class="nav-link active" aria-current="page" href="#">صفحه ای اصلی</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="{% url 'profile' %}" tabindex="-1" aria-disabled="true">بازگشت به پروفایل</a>
+                        </li>
+            
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <br><br><br>
+    
+    <!-- Sidebar Start -->
+    <aside>
+        <!-- Chat Header Start -->
+        <div class="sidebar-header sticky-top p-2">
+            <h5 class="font-weight-semibold mb-0">لیست دانش آموزان {{student}}</h5>
+        </div>
+        <!-- Chat Header End -->
+
+        <!-- Chat Contact List Start -->
+        <form method="POST" action="">
+            {% csrf_token%}
+        <ul class="contacts-list" id="chatContactTab" data-chat-list="">
+            <!-- Chat Item Start -->
+            {% for form in formset %}
+            {{ formset.management_form }}
+            {{ text_formset.management_form }}
+                <li class="contacts-item friends">
+                    <a class="contacts-link"
+                       >
+                      
+                        <div class="contacts-content">
+                            <div class="contacts-info">
+                                <h6 class="chat-name text-truncate">
+                                    {{ contact.first_name }} {{ contact.last_name }}
+                                    {% if contact.unread != 0 %}
+                                        <div class="badge badge-rounded badge-primary ml-1">
+                                            {{ contact.unread }}
+                                        </div>
+                                    {% endif %}
+                                </h6>
+                                <div class="chat-time">{{form.as_p}}</div>
+                            </div>
+                            <div class="contacts-texts">
+                                <p class="text-truncate">{{ contact.message }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+            <input type='submit', value='save'>
+            </form>
+            <!-- Chat Item End -->
+            <!-- Add more items here as necessary -->
+        </ul>
+        <!-- Chat Contact List End -->
+    </aside>
+    <!-- Sidebar End -->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+crossorigin="anonymous">
+
+</script>
+<!-- Main Layout End -->
+</body>
+
+</html>
