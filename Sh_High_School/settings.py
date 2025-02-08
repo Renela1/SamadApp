@@ -89,9 +89,9 @@ WSGI_APPLICATION = 'Sh_High_School.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'optimistic_sammet',
+        'NAME': 'objective_golick',
         'USER': 'root',
-        'PASSWORD': '7wlzYFX94QEvHCPWVP1GUiyU',
+        'PASSWORD': '4k8V0OWY6n8WfNvWoRk2uCM3',
         'HOST': 'database',
         'PORT': '3306',
     }
