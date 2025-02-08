@@ -4,7 +4,6 @@ from django.views.generic import View
 from Authentication_Module.forms import *
 from Authentication_Module.models import *
 
-print('hello')
 
 # Create your views here.
 
