@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'Sh_High_School.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'objective_golick',
+        'NAME': 'modest_torvalds',
         'USER': 'root',
-        'PASSWORD': '4k8V0OWY6n8WfNvWoRk2uCM3',
-        'HOST': 'database',
+        'PASSWORD': '8p8HPWGNESB2q9ygUuWjCJNu',
+        'HOST': 'sh-high-school',
         'PORT': '3306',
     }
 }
